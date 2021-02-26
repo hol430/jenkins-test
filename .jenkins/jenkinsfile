@@ -11,10 +11,12 @@ pipeline {
 			}
             steps {
                 sh '''
+pwd
+ls -al
 echo success
 exit 0
 docker pull -q apsiminitiative/apsimng-complete
-docker run --rm --entrypoint=bash -v "$PWD":/jenkins -e GRAPEVINE_PASSWORD -e SOYBEAN_PASSWORD -e NPI_PASSWORD apsiminitiative/apsimng-complete /jenkins/jenkins-main
+docker run --rm --entrypoint=bash -v "$PWD":/jenkins -e GRAPEVINE_PASSWORD -e SOYBEAN_PASSWORD -e NPI_PASSWORD apsiminitiative/apsimng-complete /jenkins/.jenkins/jenkins-main
 
 '''
             }
