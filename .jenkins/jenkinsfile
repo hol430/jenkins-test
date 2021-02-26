@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh '''
 pwd
-ls -al
+tree
 echo success
 exit 0
 docker pull -q apsiminitiative/apsimng-complete
