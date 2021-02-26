@@ -1,0 +1,21 @@
+pipeline {
+    agent {
+		label "linux-google"
+	}
+    stages {
+        stage('main') {
+            environment {
+				GRAPEVINE_PASSWORD = credentials('grapevine-validation-password')
+				SOYBEAN_PASSWORD = credentials('soybean-validation-password')
+				NPI_PASSWORD = credentials('npi-archive-password')
+			}
+            steps {
+                sh '''
+docker pull -q apsiminitiative/apsimng-complete
+docker run --rm --entrypoint=bash -v "$PWD":/jenkins -e GRAPEVINE_PASSWORD -e SOYBEAN_PASSWORD -e NPI_PASSWORD apsiminitiative/apsimng-complete /jenkins/jenkins-main
+
+'''
+            }
+        }
+    }
+}

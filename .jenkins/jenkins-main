@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+#
+# This is by jenkins inside an apsim-complete docker container.
+set -e
+
+test -d ApsimX || git clone --quiet https://github.com/APSIMInitiative/ApsimX
+cd ApsimX
+
+FrameworkPathOverride=/usr/lib/mono/4.7.2-api/ dotnet build -c Release
+
+unzip -oP $GRAPEVINE_PASSWORD -d Prototypes/Grapevine Prototypes/Grapevine/Observations.zip
+7z -p$SOYBEAN_PASSWORD x Tests/UnderReview/Soybean/ObservedFACTS.7z -oTests/UnderReview/Soybean
+7z -p$NPI_PASSWORD x Tests/Validation/Wheat/NPIValidation.7z -oTests/Validation/Wheat
+
+find . -not \\( -path ./Tests/UnitTests -prune \\) -not \\( -path ./ApsimNG -prune \\)  -name '*.apsimx' -print0 | xargs -0 dotnet NetCoreBin/Models.dll --verbose --run-tests
+#dotnet NetCoreBin/CreateDocumentation.dll
+
+nunit3-console Bin/UnitTests.dll
