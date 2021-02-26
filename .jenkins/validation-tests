@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+container=apsiminitiative/apsimng-complete
+docker pull -q $container
+docker run --rm --entrypoint=bash -v "$PWD":/jenkins -w /jenkins/.jenkins -e GRAPEVINE_PASSWORD -e SOYBEAN_PASSWORD -e NPI_PASSWORD $container ./validation

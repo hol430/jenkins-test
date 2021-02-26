@@ -1,25 +1,29 @@
 pipeline {
-    agent {
-		label "linux-google"
-	}
+    agent none
     stages {
         stage('main') {
-            environment {
-				GRAPEVINE_PASSWORD = credentials('grapevine-validation-password')
-				SOYBEAN_PASSWORD = credentials('soybean-validation-password')
-				NPI_PASSWORD = credentials('npi-archive-password')
-			}
-            steps {
-                sh '''
-pwd
-ls -al
-ls -al test
-echo success
-exit 0
-docker pull -q apsiminitiative/apsimng-complete
-docker run --rm --entrypoint=bash -v "$PWD":/jenkins -e GRAPEVINE_PASSWORD -e SOYBEAN_PASSWORD -e NPI_PASSWORD apsiminitiative/apsimng-complete /jenkins/.jenkins/jenkins-main
-
-'''
+            parallel {
+                stage('Validation') {
+                    agent {
+                        label "linux && vm && large"
+                    }
+                    environment {
+                        GRAPEVINE_PASSWORD = credentials('grapevine-validation-password')
+                        SOYBEAN_PASSWORD = credentials('soybean-validation-password')
+                        NPI_PASSWORD = credentials('npi-archive-password')
+                    }
+                    steps {
+                        sh './.jenkins/validation-tests'
+                    }
+                }
+                stage('Unit Tests') {
+                    agent {
+                        label "linux && vm && small"
+                    }
+                    steps {
+                        sh './.jenkins/unit-tests'
+                    }
+                }
             }
         }
     }
