@@ -9,3 +9,4 @@ TODO:
   - Need to port BuildDeb.bat into bash and test BuildMacDist.sh
   - Need to create docker images for installer generation
 - Autodocs (ugh)
+- POStats
