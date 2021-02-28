@@ -6,9 +6,12 @@ set -e
 cd ApsimX
 
 # Extract password-protected datasets.
-grapevine=Prototypes/Grapevine unzip -oP $GRAPEVINE_PASSWORD -d $grapevine $grapevine/Observations.zip
-soybean=Tests/UnderReview/Soybean 7z -p$SOYBEAN_PASSWORD x $soybean/ObservedFACTS.7z -o$soybean
-wheat=Tests/Validation/Wheat 7z -p$NPI_PASSWORD x $wheat/NPIValidation.7z -o$wheat
+grapevine=Prototypes/Grapevine
+soybean=Tests/Validation/Soybean
+wheat=Tests/Validation/Wheat
+unzip -oP $GRAPEVINE_PASSWORD -d $grapevine $grapevine/Observations.zip
+7z -p$SOYBEAN_PASSWORD x $soybean/ObservedFACTS.7z -o$soybean
+7z -p$NPI_PASSWORD x $wheat/NPIValidation.7z -o$wheat
 
 # Run all .apsimx files outside of ./Tests and ./ApsimNG
 find . -not \\( -path ./Tests/UnitTests -prune \\) -not \\( -path ./ApsimNG -prune \\)  -name '*.apsimx' -print0 | xargs -0 dotnet NetCoreBin/Models.dll --verbose --run-tests
