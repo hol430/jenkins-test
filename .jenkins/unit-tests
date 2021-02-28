@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 container=apsiminitiative/apsimng-complete
 docker pull -q $container
-docker run --rm --entrypoint=bash -v "$PWD":/jenkins -w /jenkins/.jenkins $container ./run-unit-tests
+docker run --rm --entrypoint=bash -v "$PWD":/jenkins -w /jenkins/.jenkins/container-scripts $container ./run-unit-tests
