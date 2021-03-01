@@ -13,7 +13,7 @@ pipeline {
                         NPI_PASSWORD = credentials('npi-archive-password')
                     }
                     steps {
-                        sh './.jenkins/validation-tests'
+                        sh './.jenkins/jenkins-main ./run-validation-tests'
                     }
                 }
                 stage('Unit Tests') {
@@ -21,7 +21,7 @@ pipeline {
                         label "linux && vm && small"
                     }
                     steps {
-                        sh './.jenkins/unit-tests'
+                        sh './.jenkins/jenkins-main ./run-unit-tests'
                     }
                 }
             }

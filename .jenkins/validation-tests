@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-container=apsiminitiative/apsimng-complete
-docker pull -q $container
-docker run --rm --entrypoint=bash -v "$PWD":/jenkins -w /jenkins/.jenkins/container-scripts -e GRAPEVINE_PASSWORD -e SOYBEAN_PASSWORD -e NPI_PASSWORD $container ./run-validation-tests
