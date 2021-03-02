@@ -34,12 +34,7 @@ test -z ${COMMIT_AUTHOR:+x} && COMMIT_AUTHOR=$(git log -1 --pretty=%an)
 cd ..
 git clone https://github.com/APSIMInitiative/APSIM.PerformanceTests APSIM.PerformanceTests
 cd APSIM.PerformanceTests
-
-# Temp debugging measure until PR #41 on perf tests repo is merged
-git remote add hol430 https://github.com/hol430/APSIM.PerformanceTests
-git fetch hol430 refactor
-git checkout hol430/refactor
-
+git checkout refactor
 collector=APSIM.POStats.Collector
 dotnet build -v m -c Release $collector/$collector.csproj
 dotnet $collector/bin/Release/netcoreapp3.1/$collector.dll $PULL_ID $TIMESTAMP $COMMIT_AUTHOR $apsimx/Tests/Validation $apsimx/Tests/UnderReview
