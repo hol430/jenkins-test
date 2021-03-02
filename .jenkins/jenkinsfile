@@ -11,6 +11,10 @@ pipeline {
                         GRAPEVINE_PASSWORD = credentials('grapevine-validation-password')
                         SOYBEAN_PASSWORD = credentials('soybean-validation-password')
                         NPI_PASSWORD = credentials('npi-archive-password')
+                        TESTDB = credentials('TESTDB')
+                        NEWDB = credentials('NEWDB')
+                        OLDDB = credentials('OLDDB')
+                        CollectorURL = credentials('CollectorURL')
                     }
                     steps {
                         sh './.jenkins/jenkins-main ./run-validation-tests'
